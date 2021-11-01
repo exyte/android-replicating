@@ -12,12 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.composesample.*
 import com.example.composesample.R
@@ -75,6 +76,7 @@ fun NowPlayingScreen(
     onBackClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
 ) {
+    val density = LocalDensity.current
     val sharedElementProgress =
         remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
     val titleProgress = remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
@@ -114,13 +116,15 @@ fun NowPlayingScreen(
         }
     })
     val surfaceMaterialColor = MaterialTheme.colors.surface
-    val surfaceColor = remember(bgColorProgress.value) {
+    val surfaceMaterialColorTransparent = surfaceMaterialColor.copy(alpha = 0f)
+    val surfaceColor by derivedStateOf {
         androidx.compose.ui.graphics.lerp(
-            Color.Transparent,
+            surfaceMaterialColorTransparent,
             surfaceMaterialColor,
             bgColorProgress.value
         )
     }
+    val progressProvider = { sharedElementProgress.value }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = surfaceColor,
@@ -176,9 +180,10 @@ fun NowPlayingScreen(
             SongList(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = lerp(400.dp,
-                        0.dp,
-                        sharedElementProgress.value)
+                    .padding(
+                        top = lerp(400.dp,
+                            0.dp,
+                            sharedElementProgress.value)
                     )
                     .alpha(sharedElementProgress.value),
                 items = albumInfo.songs,
@@ -192,9 +197,14 @@ fun NowPlayingScreen(
             BottomPlayerControls(
                 modifier = Modifier
                     .height(90.dp + insets.bottomInset)
-                    .offset(y = lerp(90.dp + insets.bottomInset,
-                        0.dp,
-                        sharedElementProgress.value)),
+                    .offset {
+                        val offsetY = lerp(
+                            90.dp + insets.bottomInset,
+                            0.dp,
+                            progressProvider()
+                        ).toPx(density)
+                        IntOffset(0, offsetY)
+                    },
                 bottomPadding = insets.bottomInset,
             )
         }

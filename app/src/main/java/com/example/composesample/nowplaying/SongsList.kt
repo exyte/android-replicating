@@ -20,12 +20,15 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composesample.ModelSongInfo
 import com.example.composesample.PlaybackData
 import com.example.composesample.lerp
+import com.example.composesample.toPx
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -107,6 +110,7 @@ fun SongList(
     likedIndices: LikedIndices,
     onLikeClick: (index: Int) -> Unit = {},
 ) {
+    val density = LocalDensity.current
     val scrollState = rememberLazyListState()
     Box(modifier = modifier) {
         LazyColumn(state = scrollState) {
@@ -116,9 +120,10 @@ fun SongList(
             itemsIndexed(items) { index, info ->
                 SongListItem(
                     modifier = Modifier
-                        .padding(
-                            top = lerp(200.dp * index, 0.dp, offsetPercent)
-                        ),
+                        .offset {
+                            val yOffset = lerp(200.dp * index, 0.dp, offsetPercent)
+                            IntOffset(0, yOffset.toPx(density))
+                        },
                     number = index + 1,
                     author = info.author,
                     title = info.title,

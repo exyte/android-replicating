@@ -23,7 +23,10 @@ import com.example.composesample.ui.theme.PlayerTheme
  * Created by Exyte on 17.10.2021.
  */
 @Composable
-fun BottomPlayerControls(modifier: Modifier = Modifier, bottomPadding: Dp = 0.dp) {
+fun BottomPlayerControls(
+    modifier: Modifier = Modifier,
+    bottomPadding: Dp = 0.dp,
+) {
     var playingState by remember { mutableStateOf(false) }
 
     BottomPlayerControls(
@@ -61,8 +64,7 @@ fun BottomPlayerControls(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             IconButton(
-                modifier = Modifier
-                    .size(32.dp),
+                modifier = Modifier.size(32.dp),
                 onClick = {}
             ) {
                 Icon(
@@ -84,8 +86,7 @@ fun BottomPlayerControls(
                 )
             }
             IconButton(
-                modifier = Modifier
-                    .size(32.dp),
+                modifier = Modifier.size(32.dp),
                 onClick = {}
             ) {
                 Icon(
