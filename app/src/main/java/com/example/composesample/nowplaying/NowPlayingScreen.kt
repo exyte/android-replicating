@@ -176,7 +176,7 @@ fun NowPlayingScreen(
             SongList(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = androidx.compose.ui.unit.lerp(400.dp,
+                    .padding(top = lerp(400.dp,
                         0.dp,
                         sharedElementProgress.value)
                     )
@@ -192,7 +192,7 @@ fun NowPlayingScreen(
             BottomPlayerControls(
                 modifier = Modifier
                     .height(90.dp + insets.bottomInset)
-                    .offset(y = androidx.compose.ui.unit.lerp(90.dp + insets.bottomInset,
+                    .offset(y = lerp(90.dp + insets.bottomInset,
                         0.dp,
                         sharedElementProgress.value)),
                 bottomPadding = insets.bottomInset,

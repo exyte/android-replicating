@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.composesample.lerp
 import com.example.composesample.toDp
 import com.example.composesample.toPx
 import kotlinx.coroutines.launch
@@ -61,12 +62,12 @@ fun SharedElementContainer(
         targetTopOffset,
         offsetProgress.value
     )
-    val cornersSize = androidx.compose.ui.unit.lerp(
+    val cornersSize = lerp(
         params.initialCornerRadius,
         params.targetCornerRadius,
         cornersProgress.value,
     )
-    val currentSize = androidx.compose.ui.unit.lerp(
+    val currentSize = lerp(
         params.initialSize,
         params.targetSize,
         offsetProgress.value

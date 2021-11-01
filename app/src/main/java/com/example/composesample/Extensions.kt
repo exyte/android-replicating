@@ -44,7 +44,10 @@ val <E> Collection<E>.lastIndex
     get() = count() - 1
 
 @Stable
-fun lerpF(start: Float, stop: Float, amount: Float): Float = (1 - amount) * start + amount * stop
+fun lerpF(start: Float, stop: Float, fraction: Float): Float = (1 - fraction) * start + fraction * stop
+
+@Stable
+fun lerp(start: Dp, stop: Dp, fraction: Float) : Dp = androidx.compose.ui.unit.lerp(start, stop, fraction)
 
 /*
     DpSize is inline class here.

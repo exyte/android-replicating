@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composesample.ModelSongInfo
 import com.example.composesample.PlaybackData
+import com.example.composesample.lerp
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -116,7 +117,7 @@ fun SongList(
                 SongListItem(
                     modifier = Modifier
                         .padding(
-                            top = androidx.compose.ui.unit.lerp(200.dp * index, 0.dp, offsetPercent)
+                            top = lerp(200.dp * index, 0.dp, offsetPercent)
                         ),
                     number = index + 1,
                     author = info.author,
