@@ -1,5 +1,6 @@
 package com.example.composesample.nowplaying
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.composesample.LogCompositions
 import com.example.composesample.R
 import com.example.composesample.ui.theme.PlayerTheme
 
@@ -27,6 +29,7 @@ fun BottomPlayerControls(
     modifier: Modifier = Modifier,
     bottomPadding: Dp = 0.dp,
 ) {
+    LogCompositions(tag = "NOW_PLAYING", msg = "BottomPlayerControls")
     var playingState by remember { mutableStateOf(false) }
 
     BottomPlayerControls(
@@ -63,16 +66,8 @@ fun BottomPlayerControls(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            IconButton(
-                modifier = Modifier.size(32.dp),
-                onClick = {}
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_previous_track),
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-            }
+            SmallButton(iconResId = R.drawable.ic_previous_track)
+
             IconButton(
                 modifier = Modifier
                     .size(56.dp)
@@ -85,17 +80,23 @@ fun BottomPlayerControls(
                     contentDescription = "",
                 )
             }
-            IconButton(
-                modifier = Modifier.size(32.dp),
-                onClick = {}
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_next_track),
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-            }
+
+            SmallButton(iconResId = R.drawable.ic_next_track)
         }
+    }
+}
+
+@Composable
+private fun SmallButton(@DrawableRes iconResId: Int, contentDescription: String = "") {
+    IconButton(
+        modifier = Modifier.size(32.dp),
+        onClick = {}
+    ) {
+        Icon(
+            painter = painterResource(id = iconResId),
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colors.onPrimary,
+        )
     }
 }
 

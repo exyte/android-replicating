@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,13 +44,12 @@ fun PlayerControlContainer(
                 .padding(bottom = 48.dp, start = 16.dp, end = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TopMenu(onBackClick = onBackClick, onIconClick = onSearchClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_search_24),
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-            }
+            TopMenu(
+                iconsTint = MaterialTheme.colors.onPrimary,
+                endIconResId = R.drawable.ic_search_24,
+                onStartIconClick = onBackClick,
+                onEndIconClick = onSearchClick,
+            )
             Spacer(modifier = Modifier.height(16.dp))
             ContentTitle(
                 text = "Aurora Aksnes",

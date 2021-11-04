@@ -31,17 +31,29 @@ data class ModelComment(
 @Stable
 @Immutable
 data class ModelSongInfo(
+    val id: Long = 0L,
     val author: String,
     val title: String,
     val duration: String,
 )
 
 private fun songs() = listOf(
-    ModelSongInfo("Aurora", "All Is Soft Inside", "3:54"),
-    ModelSongInfo("Aurora", "Queendom", "5:47"),
-    ModelSongInfo("Aurora", "Gentle Earthquakes", "4:32"),
-    ModelSongInfo("Aurora", "Awakening", "6:51"),
-    ModelSongInfo("Aurora", "All Is Soft Inside", "3:54"),
+    ModelSongInfo(0L, "Aurora", "All Is Soft Inside", "3:54"),
+    ModelSongInfo(1L, "Aurora", "Queendom", "5:47"),
+    ModelSongInfo(2L, "Aurora", "Gentle Earthquakes", "4:32"),
+    ModelSongInfo(3L, "Aurora", "Awakening", "6:51"),
+    ModelSongInfo(4L, "Aurora", "All Is Soft Inside", "3:54"),
+    ModelSongInfo(5L, "Aurora", "Queendom", "5:47"),
+    ModelSongInfo(6L, "Aurora", "Gentle Earthquakes", "4:32"),
+    ModelSongInfo(7L, "Aurora", "Awakening", "6:51"),
+    ModelSongInfo(8L, "Aurora", "All Is Soft Inside", "3:54"),
+    ModelSongInfo(9L, "Aurora", "Queendom", "5:47"),
+    ModelSongInfo(10L, "Aurora", "Gentle Earthquakes", "4:32"),
+    ModelSongInfo(11L, "Aurora", "Awakening", "6:51"),
+    ModelSongInfo(12L, "Aurora", "All Is Soft Inside", "3:54"),
+    ModelSongInfo(13L, "Aurora", "Queendom", "5:47"),
+    ModelSongInfo(14L, "Aurora", "Gentle Earthquakes", "4:32"),
+    ModelSongInfo(15L, "Aurora", "Awakening", "6:51"),
 )
 
 @Stable

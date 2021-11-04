@@ -1,12 +1,17 @@
 package com.example.composesample
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
+import android.util.Log
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.statusBarsPadding
 
 /*
  * Created by Exyte on 17.10.2021.
@@ -44,10 +49,16 @@ val <E> Collection<E>.lastIndex
     get() = count() - 1
 
 @Stable
-fun lerpF(start: Float, stop: Float, fraction: Float): Float = (1 - fraction) * start + fraction * stop
+fun lerpF(start: Float, stop: Float, fraction: Float): Float =
+    (1 - fraction) * start + fraction * stop
 
 @Stable
-fun lerp(start: Dp, stop: Dp, fraction: Float) : Dp = androidx.compose.ui.unit.lerp(start, stop, fraction)
+fun lerp(start: Dp, stop: Dp, fraction: Float): Dp =
+    androidx.compose.ui.unit.lerp(start, stop, fraction)
+
+@Stable
+fun lerp(start: Color, stop: Color, fraction: Float): Color =
+    androidx.compose.ui.graphics.lerp(start, stop, fraction)
 
 /*
     DpSize is inline class here.
@@ -72,3 +83,19 @@ value class DpInsets private constructor(private val dpSize: DpSize) {
         val Zero: DpInsets get() = DpInsets(DpSize.Zero)
     }
 }
+
+@Composable
+inline fun LogCompositions(tag: String, msg: String) {
+    if (BuildConfig.DEBUG) {
+        val ref = remember { Ref<Int>().also { it.value = 0 } }
+        SideEffect { ref.value = ref.value!! + 1 }
+        Log.d(tag, "Compositions: $msg ${ref.value}")
+    }
+}
+
+internal val defaultStatusBarPadding = 24.dp
+
+fun Modifier.statusBarsPaddingWithOffset(additionalOffset: Dp = defaultStatusBarPadding): Modifier =
+    this
+        .padding(top = additionalOffset)
+        .statusBarsPadding()

@@ -1,10 +1,10 @@
 package com.example.composesample.nowplaying
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,13 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composesample.ModelSongInfo
-import com.example.composesample.PlaybackData
-import com.example.composesample.lerp
-import com.example.composesample.toPx
+import com.example.composesample.*
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -45,6 +45,7 @@ fun SongListItem(
     onLikeClick: (index: Int) -> Unit = {},
     onContentClick: (index: Int) -> Unit = {},
 ) {
+    LogCompositions(tag = "M_SONGS", msg = "Song List Item #$number")
     Surface(
         modifier = modifier
             .height(64.dp)
@@ -106,24 +107,29 @@ fun SongListItem(
 fun SongList(
     modifier: Modifier = Modifier,
     items: List<ModelSongInfo>,
-    @FloatRange(from = 0.0, to = 1.0) offsetPercent: Float = 1f,
+    bottomPadding: Dp = 0.dp,
+    scrollState: LazyListState = rememberLazyListState(),
+    offsetPercent: State<Float>,
     likedIndices: LikedIndices,
     onLikeClick: (index: Int) -> Unit = {},
 ) {
+    LogCompositions(tag = "M_SONGS", msg = "Songs List")
     val density = LocalDensity.current
-    val scrollState = rememberLazyListState()
+    val offsetProvider: (Int) -> IntOffset = remember {
+        { index ->
+            val y = lerp(200.dp * index, 0.dp, offsetPercent.value).toPx(density)
+            IntOffset(x = 0, y = y)
+        }
+    }
     Box(modifier = modifier) {
         LazyColumn(state = scrollState) {
             item {
                 Spacer(modifier = Modifier.height(24.dp))
             }
-            itemsIndexed(items) { index, info ->
+            itemsIndexed(items, key = { _, info -> info.id }) { index, info ->
                 SongListItem(
                     modifier = Modifier
-                        .offset {
-                            val yOffset = lerp(200.dp * index, 0.dp, offsetPercent)
-                            IntOffset(0, yOffset.toPx(density))
-                        },
+                        .offset { offsetProvider(index) },
                     number = index + 1,
                     author = info.author,
                     title = info.title,
@@ -133,7 +139,7 @@ fun SongList(
                 )
             }
             item {
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(bottomPadding))
             }
         }
     }
@@ -146,7 +152,9 @@ private fun PreviewSongList() {
         SongList(
             modifier = Modifier.background(MaterialTheme.colors.surface),
             items = PlaybackData().albums.first().songs,
-            likedIndices = LikedIndices()
+            likedIndices = LikedIndices(),
+            bottomPadding = 0.dp,
+            offsetPercent = remember { mutableStateOf(1f) },
         )
     }
 }

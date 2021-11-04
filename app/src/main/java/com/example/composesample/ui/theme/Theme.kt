@@ -13,7 +13,7 @@ private val DarkColorPalette = darkColors(
     secondary = FrenchRose,
     onSecondary = White,
     background = White,
-    onSurface = Haiti,
+    onSurface = White,
 )
 
 private val LightColorPalette = lightColors(

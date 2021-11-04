@@ -60,6 +60,7 @@ class PlayerScreenState(
 ) {
     @Stable
     private fun Float.toDp() = this.toDp(density)
+
     @Stable
     private fun Int.toDp() = this.toDp(density)
 
@@ -336,13 +337,15 @@ fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) = ProvideWindowIns
                 )
             }
 
-            fun goBackFromNowPlayingScreen() {
-                transitioned = false
-                animScope.launch {
-                    titleProgressForward.animateTo(
-                        targetValue = 0f,
-                        animationSpec = tween(ANIM_DURATION),
-                    )
+            val goBackFromNowPlayingScreen: () -> Unit = remember {
+                {
+                    transitioned = false
+                    animScope.launch {
+                        titleProgressForward.animateTo(
+                            targetValue = 0f,
+                            animationSpec = tween(ANIM_DURATION),
+                        )
+                    }
                 }
             }
 
@@ -373,7 +376,7 @@ fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) = ProvideWindowIns
                             toNowPlayingTransition = ToNowPlaying.None
                         }
                     },
-                    insets = DpInsets.from(topInset = topInset + 24.dp, bottomInset = bottomInset)
+                    insets = DpInsets.from(topInset = topInset + defaultStatusBarPadding, bottomInset = bottomInset)
                 )
             }
 

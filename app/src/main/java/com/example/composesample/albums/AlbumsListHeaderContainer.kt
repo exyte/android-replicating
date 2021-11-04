@@ -3,7 +3,6 @@ package com.example.composesample.albums
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -54,15 +53,12 @@ fun AlbumsListContainer(
         ) {
             TopMenu(
                 title = "Albums",
-                onBackClick = onBackClick,
-                onIconClick = onShareClick,
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_share),
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-            }
+                endIconResId = R.drawable.ic_share,
+                titleColor = MaterialTheme.colors.onPrimary,
+                iconsTint = MaterialTheme.colors.onPrimary,
+                onStartIconClick = onBackClick,
+                onEndIconClick = onShareClick,
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Row(
                 modifier = Modifier.horizontalScroll(listScrollState)
@@ -78,9 +74,9 @@ fun AlbumsListContainer(
                                 .offset(y = topOffset)
                                 .alpha(appearingAnimationProgress),
                             info = info,
-                            onClick = { clickedInfo, offsetX, offsetY, size ->
+                            onClick = { clickedInfo, offset, size ->
                                 clickedItemIndex = index
-                                onInfoClick(clickedInfo, offsetX, offsetY, size)
+                                onInfoClick(clickedInfo, offset.x, offset.y, size)
                             })
                     }
                     if (index == albumData.lastIndex) {
@@ -96,7 +92,7 @@ fun AlbumsListContainer(
 private fun AlbumListItem(
     modifier: Modifier = Modifier,
     info: ModelAlbumInfo,
-    onClick: (info: ModelAlbumInfo, offsetX: Float, offsetY: Float, size: Int) -> Unit,
+    onClick: (info: ModelAlbumInfo, offset: Offset, size: Int) -> Unit,
 ) {
     var parentOffset by remember { mutableStateOf(Offset.Unspecified) }
     var mySize by remember { mutableStateOf(0) }
@@ -115,7 +111,7 @@ private fun AlbumListItem(
                 }
                 .clip(RoundedCornerShape(10.dp))
                 .alpha(LocalContentAlpha.current)
-                .clickable { onClick(info, parentOffset.x, parentOffset.y, mySize) },
+                .clickable { onClick(info, parentOffset, mySize) },
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(

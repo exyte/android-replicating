@@ -2,26 +2,26 @@ package com.example.composesample.nowplaying
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.composesample.*
-import com.example.composesample.R
+import com.example.composesample.nowplaying.header.Header
+import com.example.composesample.nowplaying.header.HeaderParams
+import com.example.composesample.nowplaying.header.collapsingHeaderController
 import com.example.composesample.ui.theme.PlayerTheme
 import kotlinx.coroutines.launch
 
@@ -36,40 +36,32 @@ data class SharedElementParams(
     val targetSize: Dp,
     val initialCornerRadius: Dp,
     val targetCornerRadius: Dp,
-) {
-    companion object {
-        val NONE = SharedElementParams(
-            initialOffset = Offset.Unspecified,
-            targetOffset = Offset.Unspecified,
-            initialSize = 0.dp,
-            targetSize = 0.dp,
-            initialCornerRadius = 0.dp,
-            targetCornerRadius = 0.dp
-        )
+)
+
+class CollapsingHeaderState(insets: DpInsets) {
+    val maxHeaderCollapse = 120.dp
+    val headerMaxHeight = insets.topInset + 270.dp + 164.dp
+    var headerHeight: Dp by mutableStateOf(headerMaxHeight)
+
+    private val headerElevation by derivedStateOf {
+        if (headerHeight > headerMaxHeight - maxHeaderCollapse) 0.dp else 2.dp
     }
+
+    fun findHeaderElevation(isSharedProgressRunning: Boolean): Dp =
+        if (isSharedProgressRunning) 0.dp else headerElevation
 }
 
+@Composable
 @Stable
-class LikedIndices(private val indices: MutableSet<Int> = mutableSetOf()) {
-
-    fun onAction(index: Int): LikedIndices {
-        if (indices.contains(index)) {
-            indices -= index
-        } else {
-            indices += index
-        }
-        return LikedIndices(indices)
-    }
-
-    fun isLiked(index: Int): Boolean = indices.contains(index)
+fun rememberCollapsingHeaderState(key: Any = Unit, insets: DpInsets) = remember(key1 = key) {
+    CollapsingHeaderState(insets)
 }
-
 
 @Composable
 fun NowPlayingScreen(
     modifier: Modifier = Modifier,
     albumInfo: ModelAlbumInfo,
-    sharedElementParams: SharedElementParams = SharedElementParams.NONE,
+    sharedElementParams: SharedElementParams,
     isAppearing: Boolean,
     insets: DpInsets = DpInsets.Zero,
     onTransitionFinished: () -> Unit = {},
@@ -77,13 +69,25 @@ fun NowPlayingScreen(
     onShareClick: () -> Unit = {},
 ) {
     val density = LocalDensity.current
-    val sharedElementProgress =
-        remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
-    val titleProgress = remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
-    val bgColorProgress = remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
-    val listProgress = remember(key1 = isAppearing) { Animatable(if (isAppearing) 0f else 1f) }
+    val sharedElementProgress = remember { Animatable(if (isAppearing) 0f else 1f) }
+    val titleProgress = remember { Animatable(if (isAppearing) 0f else 1f) }
+    val bgColorProgress = remember { Animatable(if (isAppearing) 0f else 1f) }
+    val listProgress = remember { Animatable(if (isAppearing) 0f else 1f) }
 
     var likedIndices by remember { mutableStateOf(LikedIndices()) }
+    val headerParams = remember {
+        HeaderParams(
+            sharedElementParams = sharedElementParams,
+            coverId = albumInfo.cover,
+            title = albumInfo.title,
+            author = albumInfo.author
+        )
+    }
+
+    val headerState = rememberCollapsingHeaderState(key = insets.topInset, insets = insets)
+    val scrollState = rememberLazyListState()
+
+    val bottomControlsHeight by derivedStateOf { 90.dp + insets.bottomInset }
 
     LaunchedEffect(key1 = isAppearing, block = {
         launch {
@@ -115,101 +119,102 @@ fun NowPlayingScreen(
             )
         }
     })
+
     val surfaceMaterialColor = MaterialTheme.colors.surface
     val surfaceMaterialColorTransparent = surfaceMaterialColor.copy(alpha = 0f)
-    val surfaceColor by derivedStateOf {
-        androidx.compose.ui.graphics.lerp(
+    val surfaceColor = derivedStateOf {
+        lerp(
             surfaceMaterialColorTransparent,
             surfaceMaterialColor,
             bgColorProgress.value
         )
     }
-    val progressProvider = { sharedElementProgress.value }
+
+    val listOffsetProgressState = sharedElementProgress.asState()
+    val contentAlphaState = titleProgress.asState()
+
+    val headerElevationProvider: () -> Dp = remember {
+        { headerState.findHeaderElevation(sharedElementProgress.isRunning) }
+    }
+
+    val songsListOffsetProvider: Density.() -> IntOffset = remember {
+        {
+            val y = lerp(
+                400.dp,
+                0.dp,
+                sharedElementProgress.value
+            ).toPx(density)
+            IntOffset(x = 0, y = y)
+        }
+    }
+
+    //Remember this offset provider to prevent 'BottomPlayerControls' recompositions
+    val controlsOffsetProvider: Density.() -> IntOffset = remember {
+        {
+            val y = lerp(
+                bottomControlsHeight,
+                0.dp,
+                sharedElementProgress.value
+            ).toPx(density)
+            IntOffset(x = 0, y = y)
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = surfaceColor,
+        color = surfaceColor.value,
     ) {
         Column(
-            modifier = modifier.padding(top = insets.topInset),
+            modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TopMenu(
-                modifier = Modifier.alpha(titleProgress.value),
-                title = "Now Playing",
-                backIconTint = MaterialTheme.colors.onSurface,
+            Header(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(headerState.headerHeight),
+                params = headerParams,
+                contentAlphaProvider = contentAlphaState,
+                elevationProvider = headerElevationProvider,
+                backgroundColorProvider = surfaceColor,
+                isAppearing = isAppearing,
                 onBackClick = onBackClick,
-                onIconClick = onShareClick
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_share),
-                    contentDescription = "",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
-                )
-            }
-            if (sharedElementParams != SharedElementParams.NONE) {
-                SharedElementContainer(
-                    modifier = Modifier.height(270.dp),
-                    params = sharedElementParams,
-                    isForward = isAppearing,
-                ) {
-                    Image(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(id = albumInfo.cover),
-                        contentDescription = "",
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            AnimatedText(
-                modifier = Modifier.alpha(titleProgress.value),
-                text = albumInfo.title,
-                useAnimation = isAppearing,
-                animationDelay = 350L,
-                style = MaterialTheme.typography.h4,
-                textColor = MaterialTheme.colors.onSurface
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = albumInfo.author,
-                modifier = Modifier.alpha(titleProgress.value),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
+                onShareClick = onShareClick,
             )
 
             SongList(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(
-                        top = lerp(400.dp,
-                            0.dp,
-                            sharedElementProgress.value)
-                    )
-                    .alpha(sharedElementProgress.value),
+                    .fillMaxSize()
+                    .offset(songsListOffsetProvider)
+                    .graphicsLayer { alpha = contentAlphaState.value }
+                    .collapsingHeaderController(
+                        maxOffsetPx = headerState.maxHeaderCollapse.toPxf(),
+                        firstVisibleItemIndexProvider = { scrollState.firstVisibleItemIndex },
+                    ) { currentScroll ->
+                        headerState.headerHeight =
+                            headerState.headerMaxHeight + currentScroll.toDp(density)
+                    },
                 items = albumInfo.songs,
-                offsetPercent = sharedElementProgress.value,
+                bottomPadding = bottomControlsHeight + 24.dp,
+                scrollState = scrollState,
+                offsetPercent = listOffsetProgressState,
                 likedIndices = likedIndices,
                 onLikeClick = { clickedIndex ->
                     likedIndices = likedIndices.onAction(clickedIndex)
                 }
             )
-
-            BottomPlayerControls(
-                modifier = Modifier
-                    .height(90.dp + insets.bottomInset)
-                    .offset {
-                        val offsetY = lerp(
-                            90.dp + insets.bottomInset,
-                            0.dp,
-                            progressProvider()
-                        ).toPx(density)
-                        IntOffset(0, offsetY)
-                    },
-                bottomPadding = insets.bottomInset,
-            )
         }
+
+        BottomPlayerControls(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(bottomControlsHeight)
+                .wrapContentSize(align = Alignment.BottomCenter)
+                .offset(controlsOffsetProvider),
+            bottomPadding = insets.bottomInset,
+        )
     }
 }
+
 
 @Preview
 @Composable
@@ -217,8 +222,17 @@ private fun PreviewNowPlaying() {
     PlayerTheme(false) {
         CompositionLocalProvider(LocalPreviewMode provides true) {
             NowPlayingScreen(
+                modifier = Modifier.width(360.dp),
                 albumInfo = PlaybackData().albums.first(),
                 isAppearing = false,
+                sharedElementParams = SharedElementParams(
+                    initialOffset = Offset.Zero,
+                    targetOffset = Offset(230f, 100f),
+                    initialSize = 0.dp,
+                    targetSize = 220.dp,
+                    initialCornerRadius = 0.dp,
+                    targetCornerRadius = 110.dp,
+                )
             )
         }
     }

@@ -11,12 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.composesample.LogCompositions
 import com.example.composesample.ModelComment
 import com.example.composesample.PlaybackData
 import com.example.composesample.lastIndex
@@ -25,52 +25,52 @@ import com.example.composesample.ui.theme.PlayerTheme
 /*
  * Created by Exyte on 11.10.2021.
  */
+
+private val commentItemHeight = 72.dp
+
 @Composable
 fun CommentListItem(
+    modifier: Modifier = Modifier,
     comment: ModelComment,
     isActionsVisible: Boolean,
     onClick: (ModelComment) -> Unit = {},
     onActionClick: (Action) -> Unit = {},
 ) {
-    var contentHeight by remember { mutableStateOf(0) }
+    LogCompositions(tag = "M_COMMENT", msg = "List Item")
+
     BoxWithConstraints(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .onSizeChanged { (_, h) ->
-                contentHeight = h
-            }
             .background(color = MaterialTheme.colors.surface),
+        contentAlignment = Alignment.Center,
     ) {
         val density = LocalDensity.current
         val maxWidth = with(density) { constraints.maxWidth.toDp() }
-        val maxHeight by derivedStateOf {
-            with(density) { contentHeight.toDp() }
-        }
+        val maxHeight = commentItemHeight - 16.dp
 
-        CommentStateless(
+        CommentListItem(
             avatarId = comment.avatarId,
             name = comment.name,
             text = comment.text,
             date = comment.date,
             onClick = { onClick(comment) },
         )
-        Box(
+
+        ActionPanel(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(horizontal = 16.dp),
-        ) {
-            ActionPanel(
-                maxWidth = maxWidth,
-                maxHeight = maxHeight,
-                isVisible = isActionsVisible,
-                onActionClick = onActionClick
-            )
-        }
+            maxWidth = maxWidth,
+            maxHeight = maxHeight,
+            isVisible = isActionsVisible,
+            onActionClick = onActionClick
+        )
     }
 }
 
 @Composable
-fun CommentStateless(
+fun CommentListItem(
+    modifier: Modifier = Modifier,
     avatarId: Int,
     name: String,
     text: String,
@@ -78,7 +78,7 @@ fun CommentStateless(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .clickable(onClick = onClick)
             .padding(horizontal = 24.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -136,6 +136,7 @@ fun WidgetCommentsList(
             Spacer(modifier = Modifier.height(48.dp))
             comments.forEachIndexed { index, comment ->
                 CommentListItem(
+                    modifier = Modifier.height(commentItemHeight),
                     comment = comment,
                     isActionsVisible = selectedComment == comment,
                     onClick = {
@@ -171,7 +172,6 @@ fun PreviewComment() {
     PlayerTheme(false) {
         WidgetCommentsList(
             comments = PlaybackData().comments,
-            onActionClick = {},
         )
     }
 }
