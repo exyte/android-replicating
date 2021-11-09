@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme" parent="android:Theme.Material.Wallpaper.NoTitleBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="IconImage">
+        <item name="android:padding">@dimen/icons_touch_padding</item>
+        <item name="android:layout_marginTop">@dimen/vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/vertical_margin</item>
+        <item name="android:layout_marginStart">@dimen/horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/horizontal_margin</item>
+    </style>
+
+    <style name="TextSocietyMain">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextSociety">
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AlbumTextTop">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AlbumSinger">
+        <item name="android:textColor">?attr/colorOnPrimarySurface</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AlbumName">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textSize">30sp</item>
+        <item name="fontFamily">@font/vesper_libre_medium</item>
+    </style>
+
+    <style name="SocietyContainer">
+        <item name="android:gravity">bottom</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">@dimen/vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/vertical_padding</item>
+    </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="radioButtonComments_Popular">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@drawable/color_selector_for_buttons</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="addCommentsImage">
+        <item name="android:padding">2dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearanceOverlay">@style/circleImageView</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="strokeWidth">3dp</item>
+    </style>
+
+    <style name="roundedAlbum" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_size_album_item</item>
+    </style>
+
+    <style name="AlbumQuantityBig">
+        <item name="android:textSize">100sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">-10dp</item>
+        <item name="android:layout_marginEnd">-10dp</item>
+    </style>
+
+    <style name="AlbumQuantitySmall">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

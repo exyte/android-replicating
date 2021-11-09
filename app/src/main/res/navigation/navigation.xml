@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.motionlayoutexample.mainscreen.MainSingerFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/main_singer_fragment">
+        <action
+            android:id="@+id/action_startFragment_to_blankFragment"
+            app:destination="@id/blankFragment"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+
+    <fragment android:id="@+id/blankFragment"
+        android:name="com.example.motionlayoutexample.album.AlbumsFragment"
+        android:label="album_playlist"
+        tools:layout="@layout/album_playlist">
+        <argument
+            android:defaultValue="null"
+            android:name="uri"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="bottom_inset"
+            app:argType="integer" />
+        <argument
+            android:name="top_inset"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

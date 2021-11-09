@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_play_size">50dp</dimen>
+    <dimen name="corner_size_album_item">10dp</dimen>
+
+    <dimen name="vertical_margin">16dp</dimen>
+    <dimen name="vertical_margin_big">32dp</dimen>
+    <dimen name="vertical_margin_small">8dp</dimen>
+
+    <dimen name="horizontal_margin_small">8dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="horizontal_margin_play_buttons">50dp</dimen>
+
+    <dimen name="elevation_small">16dp</dimen>
+
+    <dimen name="album_image_size">140dp</dimen>
+    <dimen name="album_image_size_on_main">70dp</dimen>
+
+    <dimen name="play_buttons_diameter">50dp</dimen>
+
+    <dimen name="margin_vertical_tools">10dp</dimen>
+
+    <dimen name="vertical_padding">16dp</dimen>
+    <dimen name="vertical_padding_small">16dp</dimen>
+
+    <dimen name="padding">16dp</dimen>
+
+    <dimen name="icons_touch_padding">12dp</dimen>
+
+    <dimen name="add_comment_image_size">40dp</dimen>
+    <dimen name="comment_image_size">50dp</dimen>
+
+    <dimen name="pullingViewSize">60dp</dimen>
+    <dimen name="pullingViewMarginBottom">70dp</dimen>
+
+    <dimen name="cornerSize">30dp</dimen>
+    <dimen name="cornerSizeTool">20dp</dimen>
+
+    <dimen name="strokeWidthCommentButtons">1dp</dimen>
+
+</resources>

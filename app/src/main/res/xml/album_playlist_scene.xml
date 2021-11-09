@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@id/end">
+        <OnSwipe
+            motion:touchAnchorId="@id/track_rv"
+            motion:dragDirection="dragUp" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/album_name"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/album_image" />
+        <Constraint
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/album_image"
+            android:layout_marginTop="@dimen/vertical_margin"
+            motion:layout_constraintWidth_percent="0.6"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/nav_layout"
+            motion:layout_constraintDimensionRatio="1:1"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:shapeAppearanceOverlay="@style/circleImageView" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/album_image"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
+            motion:layout_constraintHeight_percent="0.15"
+            motion:layout_constraintTop_toBottomOf="@+id/now_playing"
+            motion:layout_constraintDimensionRatio="1:1"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:shapeAppearanceOverlay="@style/circleImageView" />
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/album_name"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/album_image"/>
+    </ConstraintSet>
+
+</MotionScene>

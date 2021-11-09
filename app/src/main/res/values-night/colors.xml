@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FA1238</color>
+    <color name="primary_variant">#474BF1</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="color_on_primary_surface">#5B5E68</color>
+    <color name="primary_dark">#802433</color>
+
+    <color name="secondary">#02010C</color>
+    <color name="color_on_secondary">#FFFFFF</color>
+
+    <color name="background">#000000</color>
+    <color name="on_background">#FFFFFF</color>
+    <color name="accent">#F1F1F1</color>
+</resources>

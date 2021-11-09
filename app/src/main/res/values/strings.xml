@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">Compose sample</string>
+    <string name="app_name">MotionLayoutExample</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="go_back">go back</string>
+    <string name="separator">separator</string>
+    <string name="search">search</string>
+    <string name="albums">Albums</string>
+    <string name="popular">Popular</string>
+    <string name="comments">Comments</string>
+    <string name="share_content">share content</string>
+    <string name="album_icon">album icon</string>
+    <string name="album_image">album image</string>
+    <string name="musician_image">musician image</string>
+    <string name="pull_to_addition_info">pull to addition info</string>
 </resources>

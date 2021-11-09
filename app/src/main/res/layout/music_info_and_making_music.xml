@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:id="@+id/music_info"
+    android:backgroundTint="?attr/colorSecondary"
+    android:elevation="50dp"
+    android:background="@drawable/rounded_view_main_shape"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    app:layout_constraintHeight_percent="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nav_layout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_back"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/ic_arrow_back"
+            style="@style/IconImage"
+            app:tint="?attr/colorOnSecondary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_button"
+            android:contentDescription="@string/search"
+            android:src="@drawable/ic_search"
+            style="@style/IconImage"
+            app:tint="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.example.motionlayoutexample.custom.TextViewGrowingUp
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/musician_name"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:fontFamily="@font/vesper_libre_medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="30sp"
+        tools:text="Aurora Aksnes" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="1dp"
+        android:id="@+id/separator"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:background="?attr/colorOnPrimarySurface"
+        android:contentDescription="@string/separator" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/musician_info"
+        android:layout_marginHorizontal="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:fontFamily="@font/quicksand_medium"
+        android:textAlignment="center"
+        style="@style/TextSocietyMain"
+        tools:text="Norwegian singer/songwriter AURORA works in a similar dark pop millieu as artist like Oh Land, Lykke Li." />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_time"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="00:00"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/player" />
+
+        <com.example.motionlayoutexample.mainscreen.music_things.MusicVisualizationView
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:id="@+id/player"
+            android:layout_marginVertical="@dimen/vertical_margin"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/end_time"
+            app:layout_constraintStart_toStartOf="@id/start_time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/end_time"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="00:00"
+            app:layout_constraintStart_toEndOf="@id/player"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

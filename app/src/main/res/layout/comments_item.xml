@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/album_item"
+    android:layout_marginVertical="@dimen/vertical_margin_small"
+    android:background="?attr/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comments_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/comment_image_size"
+            android:layout_height="@dimen/comment_image_size"
+            android:id="@+id/album_image"
+            android:scaleType="centerCrop"
+            style="@style/circleImageView"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            tools:src="@drawable/human_photo3" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/musician_name"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginTop="@dimen/vertical_margin_small"
+                android:textColor="?attr/colorOnPrimarySurface"
+                tools:text="Wayne Valentine" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/album_name"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/quicksand_medium"
+                android:textColor="?attr/colorOnBackground"
+                android:textStyle="bold"
+                tools:text="Unusual beauty"
+                app:layout_constraintTop_toBottomOf="@+id/musician_name" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_date"
+        android:lines="2"
+        android:maxLines="2"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Feb \n 16" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

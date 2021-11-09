@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:duration="1000">
+        <OnClick
+            motion:targetId="@+id/arrow_back_to_start"
+            motion:clickAction="transitionToStart" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/music_info"
+            motion:layout_constraintHeight_percent="0.5"
+            motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/society_info"
+            motion:layout_constraintHeight_percent="0.75"
+            motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:layout_width="@dimen/pullingViewSize"
+            android:layout_height="@dimen/pullingViewSize"
+            android:id="@+id/pulling_view"
+            android:layout_marginBottom="@dimen/pullingViewMarginBottom"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent" />
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/comment_list"
+            android:layout_marginTop="@dimen/vertical_margin"
+            motion:layout_constraintTop_toBottomOf="@+id/album_list"
+            motion:layout_constraintEnd_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/music_info"
+            motion:layout_constraintHeight_percent="0.5"
+            motion:layout_constraintBottom_toTopOf="parent" />
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/society_info"
+            motion:layout_constraintHeight_percent="0.75"
+            motion:layout_constraintBottom_toTopOf="parent" />
+        <Constraint
+            android:layout_width="@dimen/pullingViewSize"
+            android:layout_height="@dimen/pullingViewSize"
+            android:id="@+id/pulling_view"
+            android:layout_marginBottom="@dimen/pullingViewMarginBottom"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toEndOf="parent" />
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/comment_list"
+            android:layout_marginTop="@dimen/vertical_margin"
+            motion:layout_constraintTop_toBottomOf="@+id/album_list"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent" />
+        <Constraint
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/portrait_image"
+            motion:layout_constraintWidth_percent="0.5"
+            motion:layout_constraintHeight_percent="0.3" />
+    </ConstraintSet>
+
+</MotionScene>

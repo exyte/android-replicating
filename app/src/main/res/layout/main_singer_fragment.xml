@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/motionLayout"
+    android:background="?attr/background"
+    app:layoutDescription="@xml/activity_main_scene"
+    tools:showPaths="true">
+
+    <include
+        android:id="@+id/album_list"
+        layout="@layout/album_horizontal_list" />
+
+    <include
+        android:id="@+id/album_quantity_info"
+        layout="@layout/album_quantity_info" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/portrait_image1"
+        android:src="@drawable/singer1"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/portrait_image"
+            android:contentDescription="@string/musician_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/singer1" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/comment_list"
+        layout="@layout/comments_list" />
+
+    <include
+        android:id="@+id/society_info"
+        layout="@layout/society_info" />
+
+    <include
+        android:id="@+id/music_info"
+        layout="@layout/music_info_and_making_music" />
+
+    <com.example.motionlayoutexample.custom.PullingView
+        android:layout_width="@dimen/pullingViewSize"
+        android:layout_height="@dimen/pullingViewSize"
+        android:id="@+id/pulling_view"
+        android:layout_marginBottom="@dimen/pullingViewMarginBottom"
+        android:background="@drawable/pulling_view_shape"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_pulling_view"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@string/pull_to_addition_info"
+            android:src="@drawable/ic_arrow_forward"
+            app:tint="?attr/colorOnPrimary" />
+    </com.example.motionlayoutexample.custom.PullingView>
+</androidx.constraintlayout.motion.widget.MotionLayout>

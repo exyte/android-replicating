@@ -1,0 +1,52 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/comments_tools"
+    android:background="@drawable/rounded_tools_shape">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/repos"
+        android:button="@drawable/ic_arrow_back_ios"
+        android:buttonTint="@color/color_selector_for_buttons"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/like_img" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/like_img"
+        android:buttonTint="@color/color_selector_for_buttons"
+        android:button="@drawable/ic_favorite"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/repos"
+        app:layout_constraintEnd_toStartOf="@id/flag" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/flag"
+        android:button="@drawable/ic_flag"
+        android:buttonTint="@color/color_selector_for_buttons"
+        app:layout_constraintStart_toEndOf="@id/like_img"
+        app:layout_constraintEnd_toStartOf="@id/trash"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/trash"
+        android:button="@drawable/ic_delete"
+        android:buttonTint="@color/color_selector_for_buttons"
+        app:layout_constraintStart_toEndOf="@id/flag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

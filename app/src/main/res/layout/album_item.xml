@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/vertical_margin_big"
+    android:layout_marginHorizontal="8dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="@dimen/album_image_size"
+        android:layout_height="@dimen/album_image_size"
+        android:id="@+id/album_image"
+        android:contentDescription="@string/album_image"
+        android:src="@drawable/album1"
+        app:shapeAppearanceOverlay="@style/roundedAlbum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/album_name"
+        android:layout_marginTop="@dimen/vertical_margin_small"
+        style="@style/TextSociety"
+        tools:text="It Happen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/album_year"
+        android:textColor="?attr/colorOnPrimarySurface"
+        style="@style/TextSociety"
+        tools:text="2018"
+        app:layout_constraintTop_toBottomOf="@id/album_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</LinearLayout>

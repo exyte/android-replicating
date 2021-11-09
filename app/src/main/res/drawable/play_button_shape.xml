@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <size
+        android:width="@dimen/play_buttons_diameter"
+        android:height="@dimen/play_buttons_diameter" />
+    <solid android:color="?attr/colorPrimary" />
+</shape>

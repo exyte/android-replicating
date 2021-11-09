@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:id="@+id/society_info"
+    android:background="@drawable/rounded_view_main_shape"
+    android:backgroundTint="?attr/colorPrimary"
+    android:elevation="20dp"
+    android:orientation="horizontal"
+    tools:layout_height="300dp"
+    app:layout_constraintHeight_percent="0.75"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/following"
+        android:background="@drawable/stroke_view"
+        style="@style/SocietyContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintBottom_toTopOf="@id/track_comments">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/following_number"
+            style="@style/TextSocietyMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/following_title"
+            tools:text="43" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/following_title"
+            android:text="@string/following"
+            style="@style/TextSociety"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/followers"
+        android:background="@drawable/stroke_view"
+        style="@style/SocietyContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintBottom_toTopOf="@id/track_comments">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/followers_number"
+            style="@style/TextSocietyMain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/follwers_title"
+            tools:text="3847" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/follwers_title"
+            android:text="@string/followers"
+            style="@style/TextSociety"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/track_comments"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/track_comments_image"
+            android:gravity="center"
+            android:orientation="horizontal"
+            style="@style/SocietyContainer"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/add_comment_image_size"
+                android:layout_height="@dimen/add_comment_image_size"
+                android:id="@+id/first_comment_image"
+                style="@style/addCommentsImage"
+                tools:src="@drawable/human_photo3" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/add_comment_image_size"
+                android:layout_height="@dimen/add_comment_image_size"
+                android:id="@+id/second_comment_image"
+                android:layout_marginStart="-10dp"
+                style="@style/addCommentsImage"
+                tools:src="@drawable/human_photo4" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/add_comment_image_size"
+                android:layout_height="@dimen/add_comment_image_size"
+                android:id="@+id/add_comment"
+                android:layout_marginStart="-13dp"
+                android:src="@drawable/ic_add_circle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/track_comments_info"
+            android:gravity="center"
+            android:orientation="vertical"
+            style="@style/SocietyContainer"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/comments_number"
+                style="@style/TextSocietyMain"
+                tools:text="15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comments"
+                style="@style/TextSociety" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

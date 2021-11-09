@@ -1,0 +1,9 @@
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:topLeftRadius="@dimen/cornerSizeTool"
+        android:topRightRadius="@dimen/cornerSizeTool"
+        android:bottomLeftRadius="@dimen/cornerSizeTool"
+        android:bottomRightRadius="@dimen/cornerSizeTool"/>
+    <solid android:color="?attr/colorPrimaryVariant" />
+</shape>

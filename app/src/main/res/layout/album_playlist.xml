@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background"
+    app:layoutDescription="@xml/album_playlist_scene">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nav_layout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_back_album_list"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/ic_arrow_back"
+            style="@style/IconImage"
+            app:tint="?attr/colorOnBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/album_text"
+            android:text="@string/now_playing"
+            android:textColor="?attr/colorOnBackground"
+            style="@style/AlbumTextTop"
+            app:layout_constraintTop_toTopOf="@id/arrow_back_album_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/arrow_back_album_list" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/share"
+            android:contentDescription="@string/search"
+            android:src="@drawable/ic_share"
+            style="@style/IconImage"
+            app:tint="?colorOnBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/album_image"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:src="@drawable/album1"
+        android:transitionName="imageViewCard"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintTop_toBottomOf="@+id/nav_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
+
+    <com.example.motionlayoutexample.custom.TextViewGrowingUp
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/album_name"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:fontFamily="@font/vesper_libre_medium"
+        style="@style/AlbumName"
+        tools:text="For the Humans"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/singer"
+        android:layout_marginTop="-5dp"
+        style="@style/AlbumSinger"
+        tools:text="Aurora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/track_rv"
+        android:layout_marginHorizontal="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/singer"
+        app:layout_constraintBottom_toTopOf="@id/player_buttons_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_buttons_layout"
+        android:background="@drawable/player_buttons_layout_shape"
+        android:paddingVertical="@dimen/vertical_padding_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="@dimen/album_image_size_on_main"
+            android:layout_height="@dimen/album_image_size_on_main"
+            android:id="@+id/play_button"
+            android:background="@drawable/play_button_shape"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_play_arrow_big" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rewind_button"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginHorizontal="@dimen/horizontal_margin_play_buttons"
+            android:layout_marginVertical="@dimen/vertical_margin_big"
+            android:background="@drawable/ic_fast_rewind"
+            android:padding="@dimen/padding" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forward_button"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginHorizontal="@dimen/horizontal_margin_play_buttons"
+            android:layout_marginVertical="@dimen/vertical_margin_big"
+            android:background="@drawable/ic_fast_forward"
+            android:padding="@dimen/padding" />
+    </FrameLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>
