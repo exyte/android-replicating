@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.composesample">
 
     <application
@@ -11,9 +12,10 @@
         android:theme="@style/Theme.ComposeSample">
         <activity
             android:exported="true"
-            android:label="@string/app_name"
             android:name=".MainActivity"
-            android:theme="@style/Theme.ComposeSample.NoActionBar">
+            android:theme="@style/Theme.ComposeSample.NoActionBar"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
