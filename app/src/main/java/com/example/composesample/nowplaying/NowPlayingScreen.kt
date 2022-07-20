@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +22,7 @@ import com.example.composesample.nowplaying.header.Header
 import com.example.composesample.nowplaying.header.HeaderParams
 import com.example.composesample.nowplaying.header.collapsingHeaderController
 import com.example.composesample.ui.theme.PlayerTheme
+import com.google.accompanist.insets.LocalWindowInsets
 import kotlinx.coroutines.launch
 
 /*
@@ -58,7 +58,48 @@ fun rememberCollapsingHeaderState(key: Any = Unit, insets: DpInsets) = remember(
 }
 
 @Composable
-fun NowPlayingScreen(
+fun NowPlayingAlbumScreen(
+    maxContentWidth: Int,
+    sharedElementParams: SharedElementData,
+    transitioned: Boolean,
+    topInset: Dp,
+    onTransitionFinished: () -> Unit,
+    onBackClick: () -> Unit,
+) {
+    val sharedElementTargetSize = 230.dp
+    val insets = LocalWindowInsets.current
+    val density = LocalDensity.current
+    val bottomInset by derivedStateOf { insets.navigationBars.bottom.toDp(density) }
+    NowPlayingAlbumScreen(
+        albumInfo = sharedElementParams.albumInfo,
+        isAppearing = transitioned,
+        sharedElementParams = SharedElementParams(
+            initialOffset = Offset(
+                sharedElementParams.offsetX.toPx(LocalDensity.current).toFloat(),
+                sharedElementParams.offsetY.toPx(LocalDensity.current).toFloat(),
+            ),
+            targetOffset = Offset(
+                x = maxContentWidth / 2f - sharedElementTargetSize.toPx(
+                    LocalDensity.current
+                ) / 2f,
+                y = 50.dp.toPx(LocalDensity.current).toFloat()
+            ),
+            initialSize = sharedElementParams.size,
+            targetSize = sharedElementTargetSize,
+            initialCornerRadius = 10.dp,
+            targetCornerRadius = sharedElementTargetSize / 2
+        ),
+        onBackClick = onBackClick,
+        onTransitionFinished = onTransitionFinished,
+        insets = DpInsets.from(
+            topInset = topInset,
+            bottomInset = bottomInset
+        )
+    )
+}
+
+@Composable
+fun NowPlayingAlbumScreen(
     modifier: Modifier = Modifier,
     albumInfo: ModelAlbumInfo,
     sharedElementParams: SharedElementParams,
@@ -91,12 +132,15 @@ fun NowPlayingScreen(
 
     LaunchedEffect(key1 = isAppearing, block = {
         launch {
-            sharedElementProgress.animateTo(if (isAppearing) 1f else 0f,
-                animationSpec = tween(ANIM_DURATION))
+            sharedElementProgress.animateTo(
+                if (isAppearing) 1f else 0f,
+                animationSpec = tween(ANIM_DURATION)
+            )
             onTransitionFinished()
         }
         launch {
-            titleProgress.animateTo(if (isAppearing) 1f else 0f,
+            titleProgress.animateTo(
+                if (isAppearing) 1f else 0f,
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION / 2,
                     delayMillis = if (isAppearing) ANIM_DURATION / 2 else 0
@@ -104,7 +148,8 @@ fun NowPlayingScreen(
             )
         }
         launch {
-            listProgress.animateTo(if (isAppearing) 1f else 0f,
+            listProgress.animateTo(
+                if (isAppearing) 1f else 0f,
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION / 2,
                     delayMillis = if (isAppearing) ANIM_DURATION / 2 else 0
@@ -112,7 +157,8 @@ fun NowPlayingScreen(
             )
         }
         launch {
-            bgColorProgress.animateTo(if (isAppearing) 1f else 0f,
+            bgColorProgress.animateTo(
+                if (isAppearing) 1f else 0f,
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION,
                 )
@@ -221,7 +267,7 @@ fun NowPlayingScreen(
 private fun PreviewNowPlaying() {
     PlayerTheme(false) {
         CompositionLocalProvider(LocalPreviewMode provides true) {
-            NowPlayingScreen(
+            NowPlayingAlbumScreen(
                 modifier = Modifier.width(360.dp),
                 albumInfo = PlaybackData().albums.first(),
                 isAppearing = false,

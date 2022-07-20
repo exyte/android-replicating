@@ -16,12 +16,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composesample.*
 import com.example.composesample.R
+import com.example.composesample.ui.TopMenu
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -32,7 +34,7 @@ fun AlbumsListContainer(
     modifier: Modifier = Modifier,
     listScrollState: ScrollState = rememberScrollState(),
     albumData: Collection<ModelAlbumInfo>,
-    topPadding: Dp = 0.dp,
+    albumImageWidth: Dp = 150.dp,
     transitionAnimationProgress: Float = 0f,
     appearingAnimationProgress: Float = 1f,
     onBackClick: () -> Unit = {},
@@ -44,22 +46,21 @@ fun AlbumsListContainer(
 
     RoundedCornersSurface(
         modifier = modifier,
-        topPadding = topPadding,
-        elevation = 4.dp,
         color = MaterialTheme.colors.primary,
     ) {
-        Column(
-            modifier = Modifier.padding(bottom = 32.dp),
-        ) {
+        Column() {
             TopMenu(
-                title = "Albums",
+                modifier = Modifier
+                    .statusBarsPaddingWithOffset()
+                    .padding(horizontal = 16.dp),
+                title = TOP_MENU_TITLE,
                 endIconResId = R.drawable.ic_share,
                 titleColor = MaterialTheme.colors.onPrimary,
                 iconsTint = MaterialTheme.colors.onPrimary,
                 onStartIconClick = onBackClick,
                 onEndIconClick = onShareClick,
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier.horizontalScroll(listScrollState)
             ) {
@@ -74,6 +75,7 @@ fun AlbumsListContainer(
                                 .offset(y = topOffset)
                                 .alpha(appearingAnimationProgress),
                             info = info,
+                            albumImageWidth = albumImageWidth,
                             onClick = { clickedInfo, offset, size ->
                                 clickedItemIndex = index
                                 onInfoClick(clickedInfo, offset.x, offset.y, size)
@@ -84,6 +86,7 @@ fun AlbumsListContainer(
                     }
                 }
             }
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
@@ -92,12 +95,13 @@ fun AlbumsListContainer(
 private fun AlbumListItem(
     modifier: Modifier = Modifier,
     info: ModelAlbumInfo,
+    albumImageWidth: Dp,
     onClick: (info: ModelAlbumInfo, offset: Offset, size: Int) -> Unit,
 ) {
     var parentOffset by remember { mutableStateOf(Offset.Unspecified) }
     var mySize by remember { mutableStateOf(0) }
     Column(
-        modifier = modifier.width(150.dp),
+        modifier = modifier.width(albumImageWidth),
     ) {
         Image(
             painter = painterResource(id = info.cover),
@@ -117,7 +121,9 @@ private fun AlbumListItem(
         Text(
             text = info.title,
             color = MaterialTheme.colors.onPrimary,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -128,6 +134,8 @@ private fun AlbumListItem(
         )
     }
 }
+
+const val TOP_MENU_TITLE = "Albums"
 
 @Composable
 @Preview

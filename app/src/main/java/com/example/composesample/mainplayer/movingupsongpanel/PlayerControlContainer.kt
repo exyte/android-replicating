@@ -1,9 +1,8 @@
-package com.example.composesample.playercontrol
+package com.example.composesample.mainplayer.movingupsongpanel
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
@@ -11,15 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composesample.*
 import com.example.composesample.R
+import com.example.composesample.ui.AnimatedText
+import com.example.composesample.ui.playerprogressbar.ProgressBar
+import com.example.composesample.ui.TopMenu
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -27,35 +27,35 @@ import com.example.composesample.ui.theme.PlayerTheme
  */
 @Composable
 fun PlayerControlContainer(
-    modifier: Modifier,
-    topPadding: Dp = 0.dp,
+    modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
+    nowPlayingSong: NowPlayingSong,
 ) {
     RoundedCornersSurface(
         modifier = modifier,
-        topPadding = topPadding,
         color = MaterialTheme.colors.primary,
-        elevation = 8.dp,
+        elevation = 5.dp
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 48.dp, start = 16.dp, end = 16.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TopMenu(
+                modifier = Modifier.statusBarsPaddingWithOffset(),
                 iconsTint = MaterialTheme.colors.onPrimary,
                 endIconResId = R.drawable.ic_search_24,
                 onStartIconClick = onBackClick,
                 onEndIconClick = onSearchClick,
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.weight(2f))
             ContentTitle(
-                text = "Aurora Aksnes",
+                text = nowPlayingSong.Singer,
                 animate = true
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(3f))
             Box(
                 modifier = Modifier
                     .size(width = 32.dp, height = 1.dp)
@@ -65,19 +65,21 @@ fun PlayerControlContainer(
                     )
                     .align(Alignment.CenterHorizontally)
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(3f))
             ContentSubtitle(
-                text = "Norwegian singer/songwriter AURORA works in similar dark pop milieu as artists like Oh Land, Lykke Li.",
+                text = nowPlayingSong.Description,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 48.dp)
+                    .padding(horizontal = 48.dp),
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(4f).widthIn(min = 16.dp))
             ProgressBar(
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
-                    .fillMaxWidth(1f)
+                    .fillMaxWidth(1f),
+                songDuration = nowPlayingSong.SongDuration
             )
+            Spacer(modifier = Modifier.weight(4f).widthIn(min = 16.dp))
         }
 
     }
@@ -103,7 +105,9 @@ private fun ContentSubtitle(text: String, modifier: Modifier) {
         textAlign = TextAlign.Center,
         modifier = modifier,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 3,
     )
 }
 
@@ -114,7 +118,7 @@ private fun PreviewPlayerControlContainer() {
         CompositionLocalProvider(LocalPreviewMode provides true) {
             PlayerControlContainer(
                 modifier = Modifier.fillMaxWidth(1f),
-                topPadding = 48.dp,
+                nowPlayingSong = NowPlayingSong()
             )
         }
     }

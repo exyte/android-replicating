@@ -1,4 +1,4 @@
-package com.example.composesample.playercontrol
+package com.example.composesample.mainplayer.movingupsongpanel
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,24 +29,34 @@ import com.example.composesample.ui.theme.PlayerTheme
  * Created by Exyte on 08.10.2021.
  */
 @Composable
-fun SongInfoContainer(modifier: Modifier, topPadding: Dp = 0.dp) {
+fun SongInfoContainer(
+    modifier: Modifier = Modifier,
+    height: Dp,
+    topPadding: Dp = 0.dp,
+) {
     RoundedCornersSurface(
         modifier = modifier,
         color = MaterialTheme.colors.secondary,
-        elevation = 6.dp,
+        elevation = 5.dp
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(height),
         ) {
             Row(
-                modifier = Modifier.height(IntrinsicSize.Min),
+                modifier = Modifier
+                    .height(IntrinsicSize.Min)
+                    .weight(1f),
             ) {
                 SimpleInfoItem(
                     modifier = Modifier
+                        .align(Alignment.CenterVertically)
                         .weight(1f)
-                        .padding(top = 64.dp + topPadding, bottom = 24.dp),
+                        .padding(top = topPadding),
                     counter = 3847,
-                    label = "Followers",
+                    label = FOLLOWERS,
                 )
 
                 Divider(
@@ -59,18 +69,20 @@ fun SongInfoContainer(modifier: Modifier, topPadding: Dp = 0.dp) {
 
                 SimpleInfoItem(
                     modifier = Modifier
+                        .align(Alignment.CenterVertically)
                         .weight(1f)
-                        .padding(top = 64.dp + topPadding, bottom = 24.dp),
+                        .padding(top = topPadding),
                     counter = 47,
-                    label = "Following",
+                    label = FOLLOWING,
                 )
             }
             Divider(color = MaterialTheme.colors.primary.copy(alpha = 0.1f))
 
             Row(
                 modifier = Modifier
+                    .weight(1f)
                     .fillMaxWidth(1f)
-                    .padding(start = 24.dp, top = 24.dp, bottom = 24.dp),
+                    .padding(start = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(modifier = Modifier.weight(1f)) {
@@ -101,14 +113,14 @@ fun SongInfoContainer(modifier: Modifier, topPadding: Dp = 0.dp) {
                             contentDescription = "",
                             modifier = Modifier
                                 .clip(CircleShape)
+                                .clickable { }
                                 .background(
                                     color = MaterialTheme.colors.surface,
                                     shape = CircleShape
                                 )
                                 .size(36.dp)
                                 .border(2.dp, color = MaterialTheme.colors.secondary, CircleShape)
-                                .padding(6.dp)
-                                .clickable { },
+                                .padding(6.dp),
                             contentScale = ContentScale.Crop,
                             colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
                         )
@@ -119,7 +131,7 @@ fun SongInfoContainer(modifier: Modifier, topPadding: Dp = 0.dp) {
                     modifier = Modifier
                         .weight(1f),
                     counter = 15,
-                    label = "Comments",
+                    label = COMMENTS,
                 )
             }
         }
@@ -152,13 +164,17 @@ private fun SimpleInfoItem(modifier: Modifier, counter: Int, label: String) {
     }
 }
 
+const val FOLLOWERS = "Followers"
+const val FOLLOWING = "Following"
+const val COMMENTS = "Comments"
+
 @Preview
 @Composable
 private fun PreviewSongInfoContainer() {
     PlayerTheme(darkTheme = false) {
         SongInfoContainer(
             modifier = Modifier.fillMaxWidth(),
-            topPadding = 100.dp
+            height = 300.dp,
         )
     }
 }

@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.example.composesample.*
 import com.example.composesample.R
 import com.example.composesample.nowplaying.SharedElementParams
+import com.example.composesample.ui.AnimatedText
+import com.example.composesample.ui.TopMenu
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -142,11 +144,12 @@ private fun BoxScope.HeaderTitle(
     LogCompositions(tag = "M_HEADER", msg = "Header Title")
     TopMenu(
         modifier = Modifier
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .graphicsLayer { alpha = alphaProvider.value }
             .align(Alignment.TopCenter)
             .statusBarsPaddingWithOffset(),
-        title = "Now Playing",
+        title = TOP_MENU_TITLE,
         iconsTint = MaterialTheme.colors.onSurface,
         endIconResId = R.drawable.ic_share,
         onStartIconClick = onBackClick,
@@ -187,6 +190,8 @@ private fun BoxScope.Labels(
         )
     }
 }
+
+const val TOP_MENU_TITLE = "Now Playing"
 
 @Preview
 @Composable

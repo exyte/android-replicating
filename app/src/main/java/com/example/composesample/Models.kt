@@ -116,3 +116,11 @@ data class SharedElementData(
         val NONE = SharedElementData(ModelAlbumInfo(0, "", "", 0, listOf()), 0.dp, 0.dp, 0.dp)
     }
 }
+
+@Stable
+@Immutable
+data class NowPlayingSong(
+    val Singer: String = "Aurora Aksnes",
+    val Description: String = "Norwegian singer/songwriter AURORA works in similar dark pop milieu as artists like Oh Land, Lykke Li.",
+    val SongDuration: String = "03:20",
+)

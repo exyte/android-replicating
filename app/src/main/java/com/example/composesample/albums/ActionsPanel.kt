@@ -37,7 +37,6 @@ data class ActionItem(
     @DrawableRes val iconResId: Int,
     val action: Action,
     val description: String,
-    val isChecked: Boolean = false,
 )
 
 private val icons = listOf(
@@ -134,12 +133,11 @@ fun ActionPanel(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            icons.forEach { (iconId, action, description, checked) ->
+            icons.forEach { (iconId, action, description) ->
                 ActionIconButton(
                     iconResId = iconId,
                     description = description,
                     action = action,
-                    isChecked = checked,
                     onClick = onActionClick,
                 )
             }
@@ -152,7 +150,6 @@ private fun ActionIconButton(
     @DrawableRes iconResId: Int,
     description: String,
     action: Action,
-    isChecked: Boolean,
     onClick: (Action) -> Unit = {},
 ) {
     IconButton(

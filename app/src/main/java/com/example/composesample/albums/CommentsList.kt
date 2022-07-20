@@ -15,11 +15,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.composesample.LogCompositions
-import com.example.composesample.ModelComment
-import com.example.composesample.PlaybackData
-import com.example.composesample.lastIndex
+import com.example.composesample.*
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -27,6 +25,56 @@ import com.example.composesample.ui.theme.PlayerTheme
  */
 
 private val commentItemHeight = 72.dp
+private val sectionSelectorWidth = 260.dp
+private val sectionSelectorHeight = 50.dp
+
+@Composable
+fun CommentsList(
+    modifier: Modifier = Modifier,
+    scrollState: ScrollState = rememberScrollState(),
+    comments: Collection<ModelComment>,
+    onActionClick: (Action) -> Unit = {},
+    topPadding: Dp = 0.dp
+) {
+    var selectedComment by remember { mutableStateOf<ModelComment?>(null) }
+    Surface(
+        color = MaterialTheme.colors.surface,
+        modifier = modifier,
+        elevation = 5.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(state = scrollState),
+        ) {
+            Spacer(modifier = Modifier.height(24.dp))
+            SectionSelector(
+                modifier = Modifier
+                    .padding(top = topPadding)
+                    .size(width = sectionSelectorWidth, height = sectionSelectorHeight)
+                    .align(Alignment.CenterHorizontally),
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            comments.forEachIndexed { index, comment ->
+                CommentListItem(
+                    modifier = Modifier.height(commentItemHeight),
+                    comment = comment,
+                    isActionsVisible = selectedComment == comment,
+                    onClick = {
+                        if (selectedComment != comment) {
+                            selectedComment = comment
+                        }
+                    },
+                    onActionClick = { action ->
+                        selectedComment = null
+                        onActionClick(action)
+                    },
+                )
+                Spacer(modifier = Modifier.height(if (index != comments.lastIndex) 8.dp else 72.dp))
+            }
+        }
+    }
+}
 
 @Composable
 fun CommentListItem(
@@ -115,47 +163,6 @@ fun CommentListItem(
 }
 
 @Composable
-fun WidgetCommentsList(
-    scrollState: ScrollState = rememberScrollState(),
-    comments: Collection<ModelComment>,
-    onActionClick: (Action) -> Unit = {},
-) {
-    var selectedComment by remember { mutableStateOf<ModelComment?>(null) }
-    Surface(color = MaterialTheme.colors.surface) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(state = scrollState),
-        ) {
-            Spacer(modifier = Modifier.height(48.dp))
-            SectionSelector(
-                modifier = Modifier
-                    .size(width = 260.dp, height = 50.dp)
-                    .align(Alignment.CenterHorizontally),
-            )
-            Spacer(modifier = Modifier.height(48.dp))
-            comments.forEachIndexed { index, comment ->
-                CommentListItem(
-                    modifier = Modifier.height(commentItemHeight),
-                    comment = comment,
-                    isActionsVisible = selectedComment == comment,
-                    onClick = {
-                        if (selectedComment != comment) {
-                            selectedComment = comment
-                        }
-                    },
-                    onActionClick = { action ->
-                        selectedComment = null
-                        onActionClick(action)
-                    },
-                )
-                Spacer(modifier = Modifier.height(if (index != comments.lastIndex) 8.dp else 72.dp))
-            }
-        }
-    }
-}
-
-@Composable
 @Preview
 fun PreviewListItem() {
     PlayerTheme(darkTheme = false) {
@@ -170,7 +177,7 @@ fun PreviewListItem() {
 @Preview
 fun PreviewComment() {
     PlayerTheme(false) {
-        WidgetCommentsList(
+        CommentsList(
             comments = PlaybackData().comments,
         )
     }
