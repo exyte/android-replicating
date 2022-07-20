@@ -16,7 +16,7 @@ import com.example.composesample.ui.theme.PlayerTheme
 /*
  * Created by Exyte on 15.10.2021.
  */
-private const val CORNERS_SIZE = 48
+const val CORNERS_SIZE = 48
 
 @Composable
 fun RoundedCornersSurface(

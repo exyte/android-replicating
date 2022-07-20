@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 
 /*
@@ -85,7 +86,7 @@ value class DpInsets private constructor(private val dpSize: DpSize) {
 }
 
 @Composable
-inline fun LogCompositions(tag: String, msg: String) {
+fun LogCompositions(tag: String, msg: String) {
     if (BuildConfig.DEBUG) {
         val ref = remember { Ref<Int>().also { it.value = 0 } }
         SideEffect { ref.value = ref.value!! + 1 }
@@ -99,3 +100,8 @@ fun Modifier.statusBarsPaddingWithOffset(additionalOffset: Dp = defaultStatusBar
     this
         .padding(top = additionalOffset)
         .statusBarsPadding()
+
+fun Modifier.navigationBarsPaddingWithOffset(additionalOffset: Dp = 0.dp): Modifier =
+    this
+        .padding(bottom = additionalOffset)
+        .navigationBarsPadding()

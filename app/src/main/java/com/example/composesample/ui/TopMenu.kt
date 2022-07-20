@@ -1,4 +1,4 @@
-package com.example.composesample
+package com.example.composesample.ui
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composesample.R
 import com.example.composesample.ui.theme.PlayerTheme
 
 /*
@@ -94,23 +95,10 @@ fun TopMenu(
     )
 }
 
+@Preview
 @Composable
-@Preview(name = "Top Menu Light")
-private fun PreviewTopMenuLight() {
+private fun PreviewTopMenu() {
     PlayerTheme(darkTheme = false) {
-        TopMenu(
-            modifier = Modifier.background(MaterialTheme.colors.surface),
-            iconsTint = MaterialTheme.colors.onSurface,
-            title = "Now Playing",
-            endIconResId = R.drawable.ic_share
-        )
-    }
-}
-
-@Composable
-@Preview(name = "Top Menu Dark")
-private fun PreviewTopMenuDark() {
-    PlayerTheme(darkTheme = true) {
         TopMenu(
             modifier = Modifier.background(MaterialTheme.colors.surface),
             iconsTint = MaterialTheme.colors.onSurface,

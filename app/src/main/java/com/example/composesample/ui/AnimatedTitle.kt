@@ -1,4 +1,4 @@
-package com.example.composesample
+package com.example.composesample.ui
 
 import android.text.TextPaint
 import androidx.compose.foundation.Canvas
@@ -17,10 +17,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
+import com.example.composesample.LocalPreviewMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.max
 import kotlin.math.roundToInt
+import com.example.composesample.R
 
 /*
  * Created by Exyte on 24.10.2021.
@@ -163,7 +165,7 @@ fun AnimatedText(
         }
     ) { placeables, constraints ->
         val textWidth =
-            text.fold(0f, { acc, char -> acc + (alphabet[char] ?: 0f) }).roundToInt() + 1
+            text.fold(0f) { acc, char -> acc + (alphabet[char] ?: 0f) }.roundToInt() + 1
         val textSize = (style.fontSize.value.sp * 1.2f).roundToPx()
         layout(textWidth, textSize) {
             val canvas = placeables.first()
@@ -174,7 +176,6 @@ fun AnimatedText(
                 maxHeight = textSize
             )
             canvas.measure(cc).placeRelative(x = 0, y = 0)
-
         }
     }
 }
