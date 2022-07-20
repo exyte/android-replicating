@@ -1,4 +1,4 @@
-package com.example.composesample.playercontrol
+package com.example.composesample.ui.playerprogressbar
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -21,47 +21,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.composesample.NowPlayingSong
 import com.example.composesample.R
 import com.example.composesample.lerpF
 import com.example.composesample.toPxf
 import com.example.composesample.ui.theme.PlayerTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 /*
  * Created by Exyte on 08.10.2021.
  */
 
-private class PlayTimeFormatter {
-    fun format(playbackTimeSeconds: Long): String {
-        val minutes = TimeUnit.SECONDS.toMinutes(playbackTimeSeconds)
-        val seconds = if (playbackTimeSeconds < 60) {
-            playbackTimeSeconds
-        } else {
-            (playbackTimeSeconds - TimeUnit.MINUTES.toSeconds(minutes))
-        }
-        return buildString {
-            if (minutes < 10) append(0)
-            append(minutes)
-            append(":")
-            if (seconds < 10) append(0)
-            append(seconds)
-        }
-    }
-}
-
-class ProgressBarState {
+class ProgressBarState(duration: String) {
     var isPlaying by mutableStateOf(false)
     var elapsedTime by mutableStateOf("00:00")
-    var timeLeft by mutableStateOf("03:20")
+    var timeLeft by mutableStateOf(duration)
 }
 
 @Composable
-fun ProgressBar(modifier: Modifier = Modifier) {
+fun ProgressBar(
+    modifier: Modifier = Modifier,
+    songDuration: String,
+) {
     val dateFormatter = remember { PlayTimeFormatter() }
-    val progressBarState = remember { ProgressBarState() }
+    val progressBarState = remember { ProgressBarState(songDuration) }
     var currentTime by remember { mutableStateOf(0L) }
 
     if (progressBarState.isPlaying) {
@@ -101,7 +86,7 @@ fun ProgressBar(
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        PlayTimeText(modifier = Modifier.width(36.dp), text = state.elapsedTime)
+        PlayTimeText(text = state.elapsedTime)
 
         Box(
             modifier = Modifier
@@ -120,7 +105,7 @@ fun ProgressBar(
             PlayPauseButton(isPlaying = state.isPlaying, onClick = onButtonClick)
         }
 
-        PlayTimeText(modifier = Modifier.width(36.dp), text = state.timeLeft)
+        PlayTimeText(text = state.timeLeft)
     }
 }
 
@@ -132,6 +117,7 @@ fun PlayTimeText(modifier: Modifier = Modifier, text: String) {
         color = MaterialTheme.colors.onPrimary,
         fontSize = 11.sp,
         textAlign = TextAlign.Center,
+        maxLines = 1
     )
 }
 
@@ -183,7 +169,7 @@ fun AnimatedVolumeLevelBar(
 
     val initialMultipliers = remember {
         mutableListOf<Float>().apply {
-            repeat(100) { this += random.nextFloat() }
+            repeat(MaxLinesCount) { this += random.nextFloat() }
         }
     }
 
@@ -197,8 +183,10 @@ fun AnimatedVolumeLevelBar(
         val canvasWidth = size.width
         val canvasCenterY = canvasHeight / 2f
 
-        val count = (canvasWidth / (barWidthFloat + gapWidthFloat) + 1).toInt()
-        var startOffset = barWidthFloat / 2f
+        val count =
+            (canvasWidth / (barWidthFloat + gapWidthFloat) + 1).toInt().coerceAtMost(MaxLinesCount)
+        val animatedVolumeWidth = count * (barWidthFloat + gapWidthFloat)
+        var startOffset = (canvasWidth - animatedVolumeWidth) / 2
 
         val barMinHeight = 0f
         val barMaxHeight = canvasHeight / 2f / heightDivider
@@ -224,6 +212,8 @@ fun AnimatedVolumeLevelBar(
     }
 }
 
+const val MaxLinesCount = 100
+
 @Preview
 @Composable
 fun ProgressBarPreview() {
@@ -232,7 +222,7 @@ fun ProgressBarPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            state = ProgressBarState(),
+            state = ProgressBarState(NowPlayingSong().SongDuration),
         )
     }
 }
