@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.composesample">
+    package="com.exyte.composesample">
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         android:theme="@style/Theme.ComposeSample">
         <activity
             android:exported="true"
-            android:name=".MainActivity"
+            android:name="com.exyte.composesample.MainActivity"
             android:theme="@style/Theme.ComposeSample.NoActionBar"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
