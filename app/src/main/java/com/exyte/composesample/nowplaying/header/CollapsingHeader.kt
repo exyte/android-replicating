@@ -64,23 +64,29 @@ fun Modifier.collapsingHeaderController(
                 val delta = available.y
                 val firstVisibleIndex = firstVisibleItemIndexProvider()
                 currentOffsetPx = (currentOffsetPx + delta).coerceAtMost(0f)
-                when {
-                    delta < 0 && firstVisibleIndex == 0 -> {  //Scrolling UP
-                        if (currentOffsetPx >= -maxOffsetPx) {
-                            currentOffsetPx = currentOffsetPx.coerceAtLeast(-maxOffsetPx)
-                            maybeNotify(currentOffsetPx)
-                            return Offset(0f, delta)
-                        }
-                        maybeNotify(-maxOffsetPx)
-                        return Offset.Zero
+
+
+                val isOffsetInAllowedLimits = currentOffsetPx >= -maxOffsetPx
+
+                fun setCurrentOffsetAndNotify() {
+                    currentOffsetPx = currentOffsetPx.coerceAtLeast(-maxOffsetPx)
+                    maybeNotify(currentOffsetPx)
+                }
+
+                fun calculateOffsetAndNotify(): Offset =
+                    if (isOffsetInAllowedLimits) {
+                        setCurrentOffsetAndNotify()
+                        Offset(0f, delta)
+                    } else {
+                        maybeNotify(currentOffsetPx)
+                        Offset.Zero
                     }
-                    delta > 0 && firstVisibleIndex == 0 -> { //Scrolling DOWN
-                        currentOffsetPx = currentOffsetPx.coerceAtLeast(-maxOffsetPx)
-                        if (currentOffsetPx >= -maxOffsetPx) {
-                            maybeNotify(currentOffsetPx)
-                            return Offset(0f, delta)
-                        }
-                        return Offset.Zero
+                val isScrollingUpWhenHeaderIsDecreased = delta < 0 && firstVisibleIndex == 0
+                val isScrollingDownWhenHeaderIsIncreased = delta > 0 && firstVisibleIndex == 0
+
+                return when {
+                    isScrollingUpWhenHeaderIsDecreased || isScrollingDownWhenHeaderIsIncreased -> {
+                        calculateOffsetAndNotify()
                     }
                     else -> Offset.Zero
                 }
