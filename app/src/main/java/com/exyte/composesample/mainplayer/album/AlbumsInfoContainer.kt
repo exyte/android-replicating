@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -90,9 +91,7 @@ fun AlbumInfoContainer(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
-                contentScale = PhotoScale.apply {
-                    additionalScale = photoScale
-                }
+                contentScale = PhotoScale(photoScale)
             )
         }
     }
@@ -139,9 +138,8 @@ private fun PreviewAlbumsInfo() {
     }
 }
 
-object PhotoScale : ContentScale {
-    var additionalScale = 1f
-
+@Immutable
+data class PhotoScale(val additionalScale: Float) : ContentScale {
     override fun computeScaleFactor(srcSize: Size, dstSize: Size): ScaleFactor {
         if (additionalScale > 1f) {
             val newWidth = dstSize.width * additionalScale
