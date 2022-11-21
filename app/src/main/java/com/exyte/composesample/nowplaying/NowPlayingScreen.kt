@@ -22,7 +22,6 @@ import com.exyte.composesample.nowplaying.header.Header
 import com.exyte.composesample.nowplaying.header.HeaderParams
 import com.exyte.composesample.nowplaying.header.collapsingHeaderController
 import com.exyte.composesample.ui.theme.PlayerTheme
-import com.google.accompanist.insets.LocalWindowInsets
 import kotlinx.coroutines.launch
 
 /*
@@ -72,7 +71,7 @@ fun NowPlayingAlbumScreen(
     onBackClick: () -> Unit,
 ) {
     val sharedElementTargetSize = 230.dp
-    val insets = LocalWindowInsets.current
+    val insets = WindowInsets.navigationBars
     val density = LocalDensity.current
     val bottomInset by remember(insets) {
         derivedStateOf { insets.getBottom(density).toDp(density) }

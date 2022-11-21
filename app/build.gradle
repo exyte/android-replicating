@@ -61,8 +61,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
-    implementation "com.google.accompanist:accompanist-insets:0.21.0-beta"
-    implementation "com.google.accompanist:accompanist-insets-ui:0.21.0-beta"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"

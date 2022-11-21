@@ -44,14 +44,14 @@ fun DraggableButton(
                 color = MaterialTheme.colors.primaryVariant,
                 shape = RoundedCornerShape(topEndPercent = 50, bottomEndPercent = 50)
             )
-            .clickable{onClick()}
+            .clickable { onClick() }
             .padding(end = 16.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
-                    onDragStart = {onDragStart()},
+                    onDragStart = { onDragStart() },
                     onDragEnd = onDragFinished,
                     onPointerDown = onPointerDown,
-                ){ change, dragAmount ->
+                ) { change, dragAmount ->
                     change.consume()
                     onOffsetChange(dragAmount)
                 }
@@ -83,30 +83,28 @@ suspend fun PointerInputScope.detectHorizontalDragGestures(
     onDragCancel: () -> Unit = { },
     onHorizontalDrag: (change: PointerInputChange, dragAmount: Float) -> Unit,
 ) {
-    forEachGesture {
-        awaitPointerEventScope {
-            val down = awaitFirstDown(requireUnconsumed = false)
-            onPointerDown()
-            var overSlop = 0f
-            val drag = awaitHorizontalTouchSlopOrCancellation(
-                down.id,
-            ) { change, over ->
-                change.consumePositionChange()
-                overSlop = over
-            }
-            if (drag != null) {
-                onDragStart.invoke(drag.position)
-                onHorizontalDrag(drag, overSlop)
-                if (
-                    horizontalDrag(drag.id) {
-                        onHorizontalDrag(it, it.positionChange().x)
-                        it.consumePositionChange()
-                    }
-                ) {
-                    onDragEnd()
-                } else {
-                    onDragCancel()
+    awaitEachGesture {
+        val down = awaitFirstDown(requireUnconsumed = false)
+        onPointerDown()
+        var overSlop = 0f
+        val drag = awaitHorizontalTouchSlopOrCancellation(
+            down.id,
+        ) { change, over ->
+            change.consume()
+            overSlop = over
+        }
+        if (drag != null) {
+            onDragStart.invoke(drag.position)
+            onHorizontalDrag(drag, overSlop)
+            if (
+                horizontalDrag(drag.id) {
+                    onHorizontalDrag(it, it.positionChange().x)
+                    it.consume()
                 }
+            ) {
+                onDragEnd()
+            } else {
+                onDragCancel()
             }
         }
     }

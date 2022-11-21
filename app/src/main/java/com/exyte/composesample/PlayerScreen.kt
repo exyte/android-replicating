@@ -19,7 +19,6 @@ import com.exyte.composesample.states.Screen
 import com.exyte.composesample.states.ToNowPlaying
 import com.exyte.composesample.states.rememberPlayerScreenState
 import com.exyte.composesample.ui.theme.PlayerTheme
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
@@ -30,7 +29,7 @@ import kotlin.math.abs
  */
 
 @Composable
-fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) = ProvideWindowInsets {
+fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) {
      val systemUiController : SystemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.isStatusBarVisible = false
