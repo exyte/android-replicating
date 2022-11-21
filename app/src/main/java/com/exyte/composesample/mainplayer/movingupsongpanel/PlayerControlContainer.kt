@@ -115,7 +115,7 @@ private fun ContentSubtitle(text: String, modifier: Modifier) {
 @Preview
 private fun PreviewPlayerControlContainer() {
     PlayerTheme(darkTheme = false) {
-        CompositionLocalProvider(LocalPreviewMode provides true) {
+        CompositionLocalProvider(LocalInspectionMode provides true) {
             PlayerControlContainer(
                 modifier = Modifier.fillMaxWidth(1f),
                 nowPlayingSong = NowPlayingSong()

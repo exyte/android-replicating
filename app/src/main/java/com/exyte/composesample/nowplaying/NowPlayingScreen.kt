@@ -276,7 +276,7 @@ fun NowPlayingAlbumScreen(
 @Composable
 private fun PreviewNowPlaying() {
     PlayerTheme(false) {
-        CompositionLocalProvider(LocalPreviewMode provides true) {
+        CompositionLocalProvider(LocalInspectionMode provides true) {
             NowPlayingAlbumScreen(
                 modifier = Modifier.width(360.dp),
                 albumInfo = PlaybackData().albums.first(),

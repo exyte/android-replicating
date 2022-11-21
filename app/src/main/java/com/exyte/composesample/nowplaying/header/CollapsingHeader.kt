@@ -213,7 +213,7 @@ fun PreviewCollapsingHeader() {
         author = "Aurora",
     )
     PlayerTheme(darkTheme = false) {
-        CompositionLocalProvider(LocalPreviewMode provides true) {
+        CompositionLocalProvider(LocalInspectionMode provides true) {
             Header(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -17,7 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
-import com.exyte.composesample.LocalPreviewMode
+import com.exyte.composesample.LocalInspectionMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.max
@@ -48,7 +48,7 @@ fun AnimatedText(
     style: TextStyle = MaterialTheme.typography.h5,
     textColor: Color = MaterialTheme.colors.onSurface,
 ) {
-    val isPreviewMode = LocalPreviewMode.current
+    val isPreviewMode = LocalInspectionMode.current
     val context = LocalContext.current
     val density = LocalDensity.current
     val textPaint = remember {
@@ -183,7 +183,7 @@ fun AnimatedText(
 @Preview
 @Composable
 fun PreviewText() {
-    CompositionLocalProvider(LocalPreviewMode provides true) {
+    CompositionLocalProvider(LocalInspectionMode provides true) {
         AnimatedText(
             text = "Animated Text",
             useAnimation = false,

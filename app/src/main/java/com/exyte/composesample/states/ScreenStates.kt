@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import com.exyte.composesample.*
-import com.exyte.composesample.LocalPreviewMode
+import com.exyte.composesample.LocalInspectionMode
 import com.exyte.composesample.lerpF
 import com.exyte.composesample.toPxf
 
@@ -32,7 +32,7 @@ enum class ToNowPlaying {
 fun rememberPlayerScreenState(
     constraints: Constraints,
     density: Density = LocalDensity.current,
-    isInPreviewMode: Boolean = LocalPreviewMode.current,
+    isInPreviewMode: Boolean = LocalInspectionMode.current,
 ) = remember(constraints) {
     PlayerScreenState(
         constraints,

@@ -7,7 +7,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.core.view.WindowCompat
 import com.exyte.composesample.ui.theme.PlayerTheme
 
-val LocalPreviewMode = compositionLocalOf { false }
+val LocalInspectionMode= compositionLocalOf { false }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

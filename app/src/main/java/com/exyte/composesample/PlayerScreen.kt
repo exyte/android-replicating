@@ -152,7 +152,7 @@ fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) {
 @Preview
 private fun PreviewMainScreen() {
     PlayerTheme(darkTheme = false) {
-        CompositionLocalProvider(LocalPreviewMode provides true) {
+        CompositionLocalProvider(LocalInspectionMode provides true) {
             PlayerScreen()
         }
     }
