@@ -2,11 +2,13 @@ package com.exyte.composesample.mainplayer
 
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -86,7 +88,7 @@ fun MainPlayerScreen(
 
     fun completeAnimation(currentDragOffset: Float) {
         val shouldExpand =
-            currentDragOffset > screenState.maxContentWidth / 2f
+            currentDragOffset > screenState.maxContentWidth / 4f
         if (shouldExpand) {
             expand()
         } else {
@@ -94,7 +96,17 @@ fun MainPlayerScreen(
         }
     }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectVerticalDragGestures(
+                    onDragStart = { transitionToComments() },
+                    onDragEnd = { completeAnimation(screenState.currentDragOffset) },
+                ) { change, dragAmount ->
+                    change.consume()
+                    calculateNewOffset(-dragAmount/2)
+                }
+            }
     ) {
         MovingUpSongPanel(
             modifier = Modifier,
@@ -119,7 +131,7 @@ fun MainPlayerScreen(
             },
             onOffsetChange = { dragAmount -> calculateNewOffset(dragAmount) },
             onDragStart = { transitionToComments() },
-            onDragFinished = { completeAnimation(screenState.currentDragOffset) }
+            onDragEnd = { completeAnimation(screenState.currentDragOffset) }
         )
     }
 }

@@ -32,7 +32,7 @@ fun DraggableButton(
     onPointerDown: () -> Unit = {},
     onDragStart: () -> Unit = {},
     onOffsetChange: (Float) -> Unit = {},
-    onDragFinished: () -> Unit = {},
+    onDragEnd: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -49,7 +49,7 @@ fun DraggableButton(
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
                     onDragStart = { onDragStart() },
-                    onDragEnd = onDragFinished,
+                    onDragEnd = onDragEnd,
                     onPointerDown = onPointerDown,
                 ) { change, dragAmount ->
                     change.consume()
