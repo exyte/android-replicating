@@ -91,8 +91,10 @@ fun ActionPanel(
         label = "Height"
     ) { value -> if (value) maxHeight else MIN_RADIUS.dp }
 
-    val targetElevation by derivedStateOf {
-        (2 * ((targetWidth.value - MIN_RADIUS.dp) / (maxWidth - MIN_RADIUS.dp))).dp
+    val targetElevation by remember(targetWidth,maxWidth) {
+        derivedStateOf {
+            (2 * ((targetWidth.value - MIN_RADIUS.dp) / (maxWidth - MIN_RADIUS.dp))).dp
+        }
     }
 
     val contentAlphaProvider = remember {

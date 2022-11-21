@@ -74,7 +74,10 @@ fun NowPlayingAlbumScreen(
     val sharedElementTargetSize = 230.dp
     val insets = LocalWindowInsets.current
     val density = LocalDensity.current
-    val bottomInset by derivedStateOf { insets.navigationBars.bottom.toDp(density) }
+    val bottomInset by remember(insets) {
+        derivedStateOf { insets.getBottom(density).toDp(density) }
+    }
+
     NowPlayingAlbumScreen(
         albumInfo = sharedElementParams.albumInfo,
         isAppearing = transitioned,
@@ -132,7 +135,9 @@ fun NowPlayingAlbumScreen(
     rememberCollapsingHeaderState(key = insets.topInset, topInset = insets.topInset)
     val scrollState = rememberLazyListState()
 
-    val bottomControlsHeight by derivedStateOf { 90.dp + insets.bottomInset }
+    val bottomControlsHeight by remember(insets) {
+        derivedStateOf { 90.dp + insets.bottomInset }
+    }
 
     LaunchedEffect(key1 = isAppearing, block = {
         launch {
@@ -172,12 +177,14 @@ fun NowPlayingAlbumScreen(
 
     val surfaceMaterialColor = MaterialTheme.colors.surface
     val surfaceMaterialColorTransparent = surfaceMaterialColor.copy(alpha = 0f)
-    val surfaceColor = derivedStateOf {
-        lerp(
-            surfaceMaterialColorTransparent,
-            surfaceMaterialColor,
-            bgColorProgress.value
-        )
+    val surfaceColor = remember {
+        derivedStateOf {
+            lerp(
+                surfaceMaterialColorTransparent,
+                surfaceMaterialColor,
+                bgColorProgress.value
+            )
+        }
     }
 
     val listOffsetProgressState = sharedElementProgress.asState()

@@ -42,7 +42,9 @@ fun AlbumsListContainer(
     onInfoClick: (info: ModelAlbumInfo, offsetX: Float, offsetY: Float, size: Int) -> Unit = { _, _, _, _ -> },
 ) {
     var clickedItemIndex by remember { mutableStateOf(-1) }
-    val transitionInProgress by derivedStateOf { transitionAnimationProgress > 0f }
+    val transitionInProgress by remember(transitionAnimationProgress) {
+        derivedStateOf { transitionAnimationProgress > 0f }
+    }
 
     RoundedCornersSurface(
         modifier = modifier,
