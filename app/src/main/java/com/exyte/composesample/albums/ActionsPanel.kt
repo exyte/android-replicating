@@ -32,7 +32,6 @@ enum class Action {
     Back, Like, Flag, Delete,
 }
 
-@Stable
 data class ActionItem(
     @DrawableRes val iconResId: Int,
     val action: Action,

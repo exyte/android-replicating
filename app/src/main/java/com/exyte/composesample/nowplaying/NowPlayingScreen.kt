@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 /*
  * Created by Exyte on 16.10.2021.
  */
-@Stable
 data class SharedElementParams(
     val initialOffset: Offset,
     val targetOffset: Offset,

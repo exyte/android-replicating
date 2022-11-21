@@ -109,6 +109,7 @@ fun ProgressBar(
     }
 }
 
+@NonRestartableComposable
 @Composable
 fun PlayTimeText(modifier: Modifier = Modifier, text: String) {
     Text(
