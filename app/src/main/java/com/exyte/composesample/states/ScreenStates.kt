@@ -58,29 +58,18 @@ class PlayerScreenState(
 
     var currentDragOffset by mutableStateOf(0f)
 
-    val songInfoContainerHeight by derivedStateOf {
-        (maxContentHeight * PlayerControlRatio).toInt()
-    }
+    val songInfoContainerHeight = (maxContentHeight * PlayerControlRatio).toInt()
 
-    val playerContainerHeight by derivedStateOf {
-        (maxContentHeight * SongInfoContainerRatio).toInt()
-    }
+    val playerContainerHeight = (maxContentHeight * SongInfoContainerRatio).toInt()
 
-    val songInfoContentHeight by derivedStateOf {
-        (songInfoContainerHeight - playerContainerHeight)
-    }
+    val songInfoContentHeight = songInfoContainerHeight - playerContainerHeight
 
-    val albumContainerHeight by derivedStateOf {
-        (maxContentHeight * AlbumContainerRatio).toInt()
-    }
+    val albumContainerHeight = (maxContentHeight * AlbumContainerRatio).toInt()
 
-    val albumImageWidth by derivedStateOf {
-        min((maxContentWidth * 0.35f).toDp(),(maxContentHeight * 0.16f).toDp())
-    }
+    val albumImageWidth =
+        min((maxContentWidth * 0.35f).toDp(), (maxContentHeight * 0.16f).toDp())
 
-    val commentsContainerHeight by derivedStateOf {
-        maxContentHeight - albumContainerHeight
-    }
+    val commentsContainerHeight = maxContentHeight - albumContainerHeight
 
     val backHandlerEnabled by derivedStateOf { currentScreen != Screen.Player }
 
@@ -110,7 +99,7 @@ class PlayerScreenState(
         -(songInfoContainerHeight * fromPlayerControlsToAlbumsListProgress)
     }
 
-    val albumsInfoSize by derivedStateOf { (maxContentHeight * AlbumInfoRatio).toDp() }
+    val albumsInfoSize = (maxContentHeight * AlbumInfoRatio).toDp()
     val photoScale by derivedStateOf {
         easing.transform(
             lerpF(

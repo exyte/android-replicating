@@ -47,9 +47,7 @@ fun PlayerScreen(playbackData: PlaybackData = PlaybackData()) {
         var sharedElementParams by remember { mutableStateOf(SharedElementData.NONE) }
 
         val titleProgressForward = remember { Animatable(0f) }
-        val sharedProgress by remember(titleProgressForward) {
-            derivedStateOf { titleProgressForward.value }
-        }
+        val sharedProgress = titleProgressForward.value
 
         fun animateOffset(initialValue: Float, targetValue: Float, onEnd: () -> Unit) {
             val distance = abs(targetValue - initialValue)
